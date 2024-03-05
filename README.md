@@ -1,2 +1,2 @@
 # WebServer
-My Test webservice.
+This my sample web server using Actic-Web in rust.
