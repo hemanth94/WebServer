@@ -1,0 +1,24 @@
+# Rust/Cargo
+target/
+**/*.rs.bk
+
+# If using Cargo workspaces
+**/target/
+
+# IDEs and editors
+.idea/
+*.swp
+*.swo
+*.swn
+*.orig
+
+# Temporary files
+*.tmp
+*.bak
+
+# Logs
+*.log
+
+# Other
+.DS_Store
+Thumbs.db
