@@ -8,7 +8,7 @@ use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 async fn hello() -> impl Responder {
     let x = format!("Got this at time : {:?}", Local::now());
     tokio::time::sleep(Duration::from_micros(10)).await; // <-- Ok. Worker thread will handle other requests here
-    println!("Sending response!");
+                                                         // println!("Sending response!");
 
     HttpResponse::Ok().body(x)
 }
