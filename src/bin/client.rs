@@ -1,5 +1,6 @@
 use std::thread;
 
+use futures::future::join_all;
 use tokio::{io::join, join, sync::mpsc};
 
 #[tokio::main]
@@ -9,20 +10,30 @@ async fn main() -> Result<(), tokio::task::JoinError> {
 
     let client = reqwest::Client::new();
 
-    let (t, mut rx) = mpsc::channel::<String>(150);
+    let (t, mut rx) = mpsc::channel::<i32>(150);
     let (t2, mut rx2) = mpsc::channel::<String>(150);
 
     for i in 0..140 {
-        let send = t.send(i.to_string()).await;
+        let send = t.send(i).await;
         println!("Sending number : {}", i);
     }
 
     let handle = tokio::spawn(async move {
-        while let Some(i) = rx.recv().await {
-            println!("got = {}", i);
-            let url = url.to_owned() + "/number/" + &i;
-            let x = client.get(url).send().await;
-            t2.send(x.unwrap().text().await.unwrap()).await;
+        let mut handles = Vec::new();
+
+        loop {
+            let num = rx.recv().await.unwrap();
+            if num == 139 {
+                break;
+            }
+            println!("got = {}", num);
+            let url = url.to_owned() + "/number/" + &num.to_string();
+            let x = client.get(url).send();
+            handles.push(x);
+        }
+        let ees = join_all(handles).await;
+        for p in ees {
+            t2.send(p.unwrap().text().await.unwrap()).await;
         }
     });
     let rec_handle = tokio::spawn(async move {
@@ -32,6 +43,7 @@ async fn main() -> Result<(), tokio::task::JoinError> {
         }
     });
 
+    tokio::join!();
     join!(handle, rec_handle);
     // // // Check the response status
     // if response.status().is_success() {

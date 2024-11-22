@@ -14,9 +14,11 @@ async fn hello() -> impl Responder {
 }
 
 async fn numbers(value: web::Path<u32>) -> impl Responder {
-    let x = format!("Got this {} at time : {:?}", value, Local::now());
-    tokio::time::sleep(Duration::from_micros(10)).await; // <-- Ok. Worker thread will handle other requests here
-    println!("Sending response!");
+    if value.clone() % 10 == 0 {
+        tokio::time::sleep(Duration::from_secs(5)).await; // <-- Ok. Worker thread will handle other requests here
+    }
+    let x = format!("Sending this {} at time : {:?}", value, Local::now());
+    println!("Sending response! as {}", x);
 
     HttpResponse::Ok().body(x)
 }
