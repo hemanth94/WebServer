@@ -1,5 +1,3 @@
-
 [workspace]
 
-
-members = ["web_bin", "web_lib"]
+members = [  "test_bin","web_bin", "web_lib"]
