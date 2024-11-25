@@ -1,7 +1,5 @@
-use std::thread;
-
 use futures::future::join_all;
-use tokio::{io::join, join, sync::mpsc};
+use tokio::{join, sync::mpsc};
 
 #[tokio::main]
 async fn main() -> Result<(), tokio::task::JoinError> {

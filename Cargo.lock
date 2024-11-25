@@ -2034,7 +2034,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "web_service"
+name = "web_bin"
 version = "0.1.0"
 dependencies = [
  "actix-web",
@@ -2043,6 +2043,10 @@ dependencies = [
  "reqwest",
  "tokio",
 ]
+
+[[package]]
+name = "web_lib"
+version = "0.1.0"
 
 [[package]]
 name = "windows-core"
