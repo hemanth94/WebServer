@@ -40,6 +40,7 @@ async fn main() -> Result<(), tokio::task::JoinError> {
             println!("Response received from server is : {}", i);
         }
     });
+    // let ss = handle.await;
 
     tokio::join!();
     join!(handle, rec_handle);
